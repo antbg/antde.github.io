@@ -26,6 +26,7 @@ function setup() {
   noStroke();
 
   shaderTexture = createGraphics(600, 300, WEBGL);
+  shaderTexture.background(0, 0);
   shaderTexture.noStroke();
 
   shaders = [sineShader, addSynthShader, ampModShader, freqModShader];
