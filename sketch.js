@@ -16,7 +16,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(displayWidth, displayHeight, WEBGL);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   setAttributes('antialias', true);
   setAttributes('depth', false);
 
