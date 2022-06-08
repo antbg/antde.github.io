@@ -94,9 +94,10 @@ function draw() {
   
   fill(225)
   stroke(10)
-  text(nf(fps, 3, 1), -hw + 10, -hh + 30)
-  text(total, -hw + 10, -hh + 60)
-  text(waves.length, -hw + 10, -hh + 90)
+  text(`${width} x ${height}`, -hw + 10, -hh + 30)
+  text(nf(fps, 3, 1), -hw + 10, -hh + 60)
+  text(total, -hw + 10, -hh + 90)
+  text(waves.length, -hw + 10, -hh + 120)
 }
 
 class Wave {
