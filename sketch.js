@@ -1,7 +1,7 @@
 let shaderTexture;
 let shaders = [];
 let waves = [];
-let total = 32;
+let total = 2;
 let roboFont;
 
 let hw, qw, hh;
@@ -13,6 +13,15 @@ function preload() {
   addSynthShader = loadShader('shaders/waves.vert', 'shaders/addSynth.frag');
   ampModShader = loadShader('shaders/waves.vert', 'shaders/ampMod.frag');
   freqModShader = loadShader('shaders/waves.vert', 'shaders/freqMod.frag');
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  hw = width * 0.5;
+  qw = hw * 0.5;
+  hh = height * 0.5;
+  
+  shaderTexture.resizeCanvas(width * 0.2, height * 0.1);
 }
 
 function setup() {
@@ -28,7 +37,7 @@ function setup() {
 
   noStroke();
 
-  shaderTexture = createGraphics(600, 300, WEBGL);
+  shaderTexture = createGraphics(width * 0.2, height * 0.1, WEBGL);
   shaderTexture.noStroke();
 
   shaders = [sineShader, addSynthShader, ampModShader, freqModShader];
@@ -40,8 +49,8 @@ function draw() {
   noStroke()
   
   for (const sh of shaders) {
-    sh.setUniform('u_time', frameCount * 0.3)
-    sh.setUniform('u_resolution', [600, 400])
+    sh.setUniform('u_time', frameCount * 0.4)
+    sh.setUniform('u_resolution', [width * 0.2, height * 0.1])
   }
 
   background(0);
@@ -75,11 +84,11 @@ function draw() {
   if (frameCount % 10 == 0)
     fps = frameRate()
   
-  if (frameCount % 30 == 0) {
+  if (frameCount % 20 == 0) {
     if (fps > 59) {
-      total += 6
+      total += 2
     } else if (total > 12 && fps < 58) {
-      total -= 6
+      total -= 2
     }
   }
   
@@ -96,10 +105,10 @@ class Wave {
     this.shader = shaders[floor(random(0, shaders.length))]
     this.freq = random(24.0, 36.0)
     this.harm = pow(2, floor(random(0, 3)))
-    this.width = random(120, 220)
-    this.height = random(120, 220)
+    this.width = random(hw * 0.2, hw * 0.4)
+    this.height = random(hh * 0.2, hh * 0.4)
     this.entered = false
-    this.speed = random(3, 6)
+    this.speed = random((90 - frameRate()) * 0.1, (90 - frameRate()) * 0.2)
     this.orientation = createVector(random(-1, 1), random(-1, 1)).normalize()
     
     let offset = this.height //incorrect, but works and it's fast
@@ -123,7 +132,7 @@ class Wave {
     this.shader.setUniform('v_freq', this.freq);
     this.shader.setUniform('v_harm', this.harm);
     shaderTexture.shader(this.shader);
-    shaderTexture.rect(0,0,10,10);
+    shaderTexture.rect(0,0,9,9);
 
     push()
     translate(this.pos.x, this.pos.y)
