@@ -26,6 +26,7 @@ function windowResized() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
+  pixelDensity(1);
   setAttributes('antialias', true);
   setAttributes('depth', false);
 
